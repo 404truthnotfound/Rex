@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REX: AI Memory Enhancement</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>REX</h1>
+      <p>Advanced AI Memory Enhancement</p>
+    </header>
+
+    <div class="status-section">
+      <div class="status-indicator">
+        <span id="status-icon" class="active"></span>
+        <span id="status-text">Active</span>
+      </div>
+      <label class="toggle-switch">
+        <input type="checkbox" id="enable-toggle" checked>
+        <span class="slider round"></span>
+      </label>
+    </div>
+
+    <div class="actions-section">
+      <button id="update-btn" class="primary-btn">
+        <span class="icon">↻</span>
+        Update Summaries
+      </button>
+      <button id="view-memories-btn" class="secondary-btn">
+        <span class="icon">📚</span>
+        View Stored Memories
+      </button>
+    </div>
+
+    <div class="stats-section">
+      <div class="stat-item">
+        <span class="stat-label">Stored Conversations</span>
+        <span id="conversation-count" class="stat-value">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Last Updated</span>
+        <span id="last-updated" class="stat-value">Never</span>
+      </div>
+    </div>
+
+    <div class="memory-categories">
+      <h2>Memory Categories</h2>
+      <div class="category-list">
+        <div class="category-item">
+          <span class="category-icon">📝</span>
+          <span class="category-name">Topics</span>
+        </div>
+        <div class="category-item">
+          <span class="category-icon">👤</span>
+          <span class="category-name">People</span>
+        </div>
+        <div class="category-item">
+          <span class="category-icon">🔧</span>
+          <span class="category-name">Things</span>
+        </div>
+        <div class="category-item">
+          <span class="category-icon">📊</span>
+          <span class="category-name">Projects</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <h3>Activation Phrases</h3>
+      <ul class="phrase-list">
+        <li><strong>REX, recall [topic]</strong></li>
+        <li><strong>REX, remember our discussion about [topic]</strong></li>
+        <li><strong>REX, what did we say about [topic]</strong></li>
+        <li><strong>REX, update on [project]</strong></li>
+      </ul>
+    </div>
+
+    <footer>
+      <button id="settings-btn" class="icon-btn">⚙️</button>
+      <span class="version">v1.0.0</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

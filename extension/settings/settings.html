@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REX: Settings</title>
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>REX Settings</h1>
+      <p>Configure your AI memory enhancement experience</p>
+    </header>
+
+    <div class="settings-container">
+      <form id="settings-form">
+        <!-- General Settings -->
+        <section class="settings-section">
+          <h2>General Settings</h2>
+          
+          <div class="setting-item">
+            <label for="auto-update">
+              <span class="setting-label">Auto-update memories</span>
+              <span class="setting-description">Automatically update memory summaries when conversations end</span>
+            </label>
+            <div class="toggle-container">
+              <label class="toggle-switch">
+                <input type="checkbox" id="auto-update" name="auto-update">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <label for="max-conversations">
+              <span class="setting-label">Maximum stored conversations</span>
+              <span class="setting-description">Limit the number of conversations to store (0 = unlimited)</span>
+            </label>
+            <input type="number" id="max-conversations" name="max-conversations" min="0" max="1000" value="100">
+          </div>
+          
+          <div class="setting-item">
+            <label for="context-length">
+              <span class="setting-label">Context length</span>
+              <span class="setting-description">Maximum length of injected context (in characters)</span>
+            </label>
+            <input type="number" id="context-length" name="context-length" min="100" max="10000" value="2000">
+          </div>
+        </section>
+        
+        <!-- Privacy Settings -->
+        <section class="settings-section">
+          <h2>Privacy Settings</h2>
+          
+          <div class="setting-item">
+            <label for="encrypt-data">
+              <span class="setting-label">Encrypt stored data</span>
+              <span class="setting-description">Encrypt all stored conversations and summaries</span>
+            </label>
+            <div class="toggle-container">
+              <label class="toggle-switch">
+                <input type="checkbox" id="encrypt-data" name="encrypt-data">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="setting-item" id="encryption-password-container" style="display: none;">
+            <label for="encryption-password">
+              <span class="setting-label">Encryption password</span>
+              <span class="setting-description">Password used to encrypt and decrypt your data</span>
+            </label>
+            <div class="password-input-container">
+              <input type="password" id="encryption-password" name="encryption-password">
+              <button type="button" id="toggle-password-visibility" class="icon-button">👁️</button>
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <label for="auto-delete">
+              <span class="setting-label">Auto-delete old conversations</span>
+              <span class="setting-description">Automatically delete conversations older than the specified days</span>
+            </label>
+            <input type="number" id="auto-delete" name="auto-delete" min="0" max="365" value="0">
+            <span class="setting-hint">0 = never delete</span>
+          </div>
+        </section>
+        
+        <!-- Activation Settings -->
+        <section class="settings-section">
+          <h2>Activation Settings</h2>
+          
+          <div class="setting-item">
+            <label for="custom-trigger">
+              <span class="setting-label">Custom activation trigger</span>
+              <span class="setting-description">Customize the trigger word (default: "REX")</span>
+            </label>
+            <input type="text" id="custom-trigger" name="custom-trigger" value="REX">
+          </div>
+          
+          <div class="setting-item">
+            <label>
+              <span class="setting-label">Activation phrases</span>
+              <span class="setting-description">Customize phrases that trigger memory recall</span>
+            </label>
+            <div id="activation-phrases-container">
+              <!-- Phrases will be added here dynamically -->
+            </div>
+            <button type="button" id="add-phrase-btn" class="secondary-btn">
+              <span class="icon">+</span> Add Phrase
+            </button>
+          </div>
+        </section>
+        
+        <!-- Platform Settings -->
+        <section class="settings-section">
+          <h2>Platform Settings</h2>
+          
+          <div class="setting-item">
+            <label>
+              <span class="setting-label">Enabled platforms</span>
+              <span class="setting-description">Select which AI platforms to enable REX on</span>
+            </label>
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" id="platform-claude" name="platforms" value="CLAUDE" checked>
+                <label for="platform-claude">Claude</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="platform-chatgpt" name="platforms" value="CHATGPT" checked>
+                <label for="platform-chatgpt">ChatGPT</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="platform-gemini" name="platforms" value="GEMINI" checked>
+                <label for="platform-gemini">Gemini</label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <label for="injection-method">
+              <span class="setting-label">Context injection method</span>
+              <span class="setting-description">How to inject context into conversations</span>
+            </label>
+            <select id="injection-method" name="injection-method">
+              <option value="prepend">Prepend to message</option>
+              <option value="append">Append to message</option>
+              <option value="separate">Send as separate message</option>
+            </select>
+          </div>
+        </section>
+        
+        <!-- Advanced Settings -->
+        <section class="settings-section">
+          <h2>Advanced Settings</h2>
+          
+          <div class="setting-item">
+            <label for="debug-mode">
+              <span class="setting-label">Debug mode</span>
+              <span class="setting-description">Enable detailed logging for troubleshooting</span>
+            </label>
+            <div class="toggle-container">
+              <label class="toggle-switch">
+                <input type="checkbox" id="debug-mode" name="debug-mode">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <label for="storage-location">
+              <span class="setting-label">Storage location</span>
+              <span class="setting-description">Where to store memory data</span>
+            </label>
+            <select id="storage-location" name="storage-location">
+              <option value="local">Local browser storage</option>
+              <option value="sync">Sync across browsers</option>
+            </select>
+          </div>
+        </section>
+      </form>
+    </div>
+
+    <div class="actions-container">
+      <button id="reset-btn" class="danger-btn">Reset to Defaults</button>
+      <button id="save-btn" class="primary-btn">Save Settings</button>
+    </div>
+
+    <footer>
+      <button id="back-btn" class="text-btn">← Back to Popup</button>
+      <span class="version">v1.0.0</span>
+    </footer>
+  </div>
+
+  <!-- Template for activation phrase item -->
+  <template id="phrase-template">
+    <div class="phrase-item">
+      <input type="text" class="phrase-input" name="activation-phrase" placeholder="e.g., recall [topic]">
+      <button type="button" class="remove-phrase-btn icon-button">🗑️</button>
+    </div>
+  </template>
+
+  <script src="settings.js"></script>
+</body>
+</html>

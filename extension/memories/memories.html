@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REX: Stored Memories</title>
+  <link rel="stylesheet" href="memories.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>REX: Stored Memories</h1>
+      <div class="header-actions">
+        <button id="export-btn" class="secondary-btn">
+          <span class="icon">⬇️</span> Export
+        </button>
+        <button id="import-btn" class="secondary-btn">
+          <span class="icon">⬆️</span> Import
+        </button>
+      </div>
+    </header>
+
+    <div class="search-section">
+      <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search memories...">
+        <button id="search-btn">🔍</button>
+      </div>
+      <div class="filter-container">
+        <select id="platform-filter">
+          <option value="all">All Platforms</option>
+          <option value="CLAUDE">Claude</option>
+          <option value="CHATGPT">ChatGPT</option>
+          <option value="GEMINI">Gemini</option>
+        </select>
+        <select id="category-filter">
+          <option value="all">All Categories</option>
+          <option value="topics">Topics</option>
+          <option value="people">People</option>
+          <option value="things">Things</option>
+          <option value="projects">Projects</option>
+        </select>
+        <select id="sort-by">
+          <option value="date-desc">Newest First</option>
+          <option value="date-asc">Oldest First</option>
+          <option value="title">Title (A-Z)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-label">Total Conversations</span>
+        <span id="total-count" class="stat-value">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Topics</span>
+        <span id="topics-count" class="stat-value">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">People</span>
+        <span id="people-count" class="stat-value">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Things</span>
+        <span id="things-count" class="stat-value">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Projects</span>
+        <span id="projects-count" class="stat-value">0</span>
+      </div>
+    </div>
+
+    <div class="memories-container">
+      <div id="memories-list" class="memories-list">
+        <!-- Memory items will be added here dynamically -->
+        <div class="empty-state">
+          <p>No memories found. Try updating your summaries from the popup.</p>
+        </div>
+      </div>
+
+      <div id="memory-details" class="memory-details">
+        <div class="empty-state">
+          <p>Select a memory to view details</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="delete-confirmation" class="modal">
+      <div class="modal-content">
+        <h2>Confirm Deletion</h2>
+        <p>Are you sure you want to delete this memory? This action cannot be undone.</p>
+        <div class="modal-actions">
+          <button id="cancel-delete" class="secondary-btn">Cancel</button>
+          <button id="confirm-delete" class="danger-btn">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <button id="back-btn" class="text-btn">← Back to Popup</button>
+      <button id="clear-all-btn" class="danger-btn">Clear All Memories</button>
+    </footer>
+  </div>
+
+  <script src="memories.js"></script>
+</body>
+</html>

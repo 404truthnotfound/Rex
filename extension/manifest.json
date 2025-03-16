@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "REX: AI Memory Enhancement",
+  "version": "1.0.0",
+  "description": "Enhance AI chat platforms with advanced memory capabilities",
+  "permissions": [
+    "storage",
+    "tabs",
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://*.anthropic.com/*",
+    "https://chat.openai.com/*",
+    "https://*.gemini.google.com/*",
+    "https://*.claude.ai/*",
+    "http://localhost:8000/*"
+  ],
+  "background": {
+    "service_worker": "background/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.anthropic.com/*",
+        "https://chat.openai.com/*",
+        "https://*.gemini.google.com/*",
+        "https://*.claude.ai/*"
+      ],
+      "js": ["config.js", "api.js", "content/content.js"]
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/rex_16.png",
+      "48": "icons/rex_48.png",
+      "128": "icons/rex_128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/rex_16.png",
+    "48": "icons/rex_48.png",
+    "128": "icons/rex_128.png"
+  }
+}

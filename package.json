@@ -1,0 +1,34 @@
+{
+  "name": "rex-ai-memory-enhancement",
+  "version": "1.0.0",
+  "description": "Enhance AI chat platforms with advanced memory capabilities",
+  "main": "app.py",
+  "scripts": {
+    "start": "python app.py",
+    "build": "mkdir -p dist && cp -r extension/* dist/ && zip -r dist/rex-extension.zip dist/*",
+    "test": "python -m pytest tests/",
+    "dev": "nodemon --exec python app.py"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/rex.git"
+  },
+  "keywords": [
+    "ai",
+    "memory",
+    "claude",
+    "chatgpt",
+    "gemini",
+    "browser-extension"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yourusername/rex/issues"
+  },
+  "homepage": "https://github.com/yourusername/rex#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "web-ext": "^7.6.2"
+  }
+}
