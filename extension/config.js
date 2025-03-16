@@ -8,7 +8,8 @@ const REX_CONFIG = {
   apiEndpoint: 'http://localhost:8000',
   
   // Analytics endpoint (set to null to disable)
-  analyticsEndpoint: null, // Change to your analytics server URL if you want to enable
+  analyticsEndpoint: null, // Replace with your Firebase function URL after deployment
+  // Example: 'https://us-central1-rex-analytics.cloudfunctions.net/trackEvent'
   
   // Default settings
   defaultSettings: {
