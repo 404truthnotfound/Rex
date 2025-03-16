@@ -1,10 +1,10 @@
 /**
- * REX: Advanced AI Memory Enhancement System
+ * REX: AI Chat History & Memory Enhancement
  * Background script - handles core extension functionality
  */
 
 // Import configuration and API utilities
-importScripts('../config.js', '../api.js');
+importScripts('../config.js', '../api.js', '../analytics.js');
 
 // Constants
 const PLATFORMS = {
@@ -58,6 +58,9 @@ let state = {
  */
 function init() {
   console.log('REX: Initializing background script');
+  
+  // Initialize analytics
+  RexAnalytics.init();
   
   // Load state from storage
   chrome.storage.local.get(['rexState'], (result) => {
@@ -150,6 +153,11 @@ function detectPlatform(url) {
  */
 async function handleActivationTrigger(triggerType, text, tabId) {
   console.log(`REX: Activation trigger detected - ${triggerType}`);
+  
+  // Track activation event
+  RexAnalytics.trackEvent('memory_trigger_used', { 
+    trigger_type: triggerType 
+  });
   
   // Extract topic from the trigger text
   let topic = '';
@@ -322,6 +330,12 @@ function extractRelevantSection(fullText, topic) {
  */
 async function storeConversation(conversation) {
   console.log('REX: Storing conversation', conversation);
+  
+  // Track conversation storage
+  RexAnalytics.trackEvent('conversation_stored', {
+    platform: conversation.platform,
+    message_count: conversation.messages ? conversation.messages.length : 0
+  });
   
   // Store locally
   chrome.storage.local.get(['conversations'], (result) => {

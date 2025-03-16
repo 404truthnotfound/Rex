@@ -179,6 +179,50 @@
             </select>
           </div>
         </section>
+        
+        <!-- Analytics Settings -->
+        <section class="settings-section">
+          <h2>Analytics & Improvement</h2>
+          
+          <div class="setting-item">
+            <label for="analyticsEnabled">
+              <span class="setting-label">Share Anonymous Usage Data</span>
+              <span class="setting-description">Help improve REX by sharing anonymous usage statistics</span>
+            </label>
+            <div class="toggle-container">
+              <label class="toggle-switch">
+                <input type="checkbox" id="analyticsEnabled" name="analyticsEnabled">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <label for="shareCrashReports">
+              <span class="setting-label">Share Crash Reports</span>
+              <span class="setting-description">Automatically send crash reports to help fix issues</span>
+            </label>
+            <div class="toggle-container">
+              <label class="toggle-switch">
+                <input type="checkbox" id="shareCrashReports" name="shareCrashReports">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="setting-item">
+            <label for="shareUsageStatistics">
+              <span class="setting-label">Share Feature Usage</span>
+              <span class="setting-description">Share which features you use most to help prioritize improvements</span>
+            </label>
+            <div class="toggle-container">
+              <label class="toggle-switch">
+                <input type="checkbox" id="shareUsageStatistics" name="shareUsageStatistics">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+        </section>
       </form>
     </div>
 
@@ -202,5 +246,6 @@
   </template>
 
   <script src="settings.js"></script>
+  <script src="../analytics.js"></script>
 </body>
 </html>

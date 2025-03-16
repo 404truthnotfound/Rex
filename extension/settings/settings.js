@@ -23,6 +23,9 @@ const storageLocation = document.getElementById('storage-location');
 const resetBtn = document.getElementById('reset-btn');
 const saveBtn = document.getElementById('save-btn');
 const backBtn = document.getElementById('back-btn');
+const analyticsEnabled = document.getElementById('analyticsEnabled');
+const shareCrashReports = document.getElementById('shareCrashReports');
+const shareUsageStatistics = document.getElementById('shareUsageStatistics');
 
 // Default settings
 const defaultSettings = {
@@ -52,6 +55,11 @@ const defaultSettings = {
   advanced: {
     debugMode: false,
     storageLocation: 'local'
+  },
+  analytics: {
+    analyticsEnabled: false,
+    shareCrashReports: false,
+    shareUsageStatistics: false
   }
 };
 
@@ -69,6 +77,11 @@ function init() {
   
   // Set up event listeners
   setupEventListeners();
+  
+  // Track settings page view
+  if (window.RexAnalytics) {
+    RexAnalytics.trackEvent('settings_page_viewed');
+  }
 }
 
 /**
@@ -78,9 +91,13 @@ function loadSettings() {
   // Determine storage location
   const storageArea = chrome.storage.local;
   
-  storageArea.get(['rexSettings'], (result) => {
+  storageArea.get(['rexSettings', 'analyticsSettings'], (result) => {
     if (result.rexSettings) {
       currentSettings = { ...defaultSettings, ...result.rexSettings };
+    }
+    
+    if (result.analyticsSettings) {
+      currentSettings.analytics = result.analyticsSettings;
     }
     
     // Update UI with loaded settings
@@ -136,6 +153,17 @@ function setupEventListeners() {
       window.close();
     }
   });
+  
+  // Analytics settings
+  analyticsEnabled.addEventListener('change', () => {
+    if (analyticsEnabled.checked) {
+      shareCrashReports.disabled = false;
+      shareUsageStatistics.disabled = false;
+    } else {
+      shareCrashReports.disabled = true;
+      shareUsageStatistics.disabled = true;
+    }
+  });
 }
 
 /**
@@ -174,6 +202,16 @@ function updateUI() {
   // Advanced settings
   debugMode.checked = currentSettings.advanced.debugMode;
   storageLocation.value = currentSettings.advanced.storageLocation;
+  
+  // Analytics settings
+  analyticsEnabled.checked = currentSettings.analytics.analyticsEnabled;
+  shareCrashReports.checked = currentSettings.analytics.shareCrashReports;
+  shareUsageStatistics.checked = currentSettings.analytics.shareUsageStatistics;
+  
+  if (!currentSettings.analytics.analyticsEnabled) {
+    shareCrashReports.disabled = true;
+    shareUsageStatistics.disabled = true;
+  }
 }
 
 /**
@@ -231,6 +269,11 @@ function saveSettings() {
     advanced: {
       debugMode: debugMode.checked,
       storageLocation: storageLocation.value
+    },
+    analytics: {
+      analyticsEnabled: analyticsEnabled.checked,
+      shareCrashReports: shareCrashReports.checked,
+      shareUsageStatistics: shareUsageStatistics.checked
     }
   };
   
@@ -279,6 +322,18 @@ function saveSettings() {
       type: 'SETTINGS_CHANGED',
       settings: settings
     });
+    
+    // Track settings change
+    if (window.RexAnalytics && analyticsEnabled.checked) {
+      RexAnalytics.trackEvent('settings_updated', {
+        analytics_enabled: analyticsEnabled.checked
+      });
+    }
+  });
+  
+  // Save analytics settings
+  chrome.storage.local.set({ analyticsSettings: settings.analytics }, () => {
+    console.log('Analytics settings saved');
   });
 }
 
@@ -396,6 +451,13 @@ function hasUnsavedChanges() {
   // Check advanced settings
   if (debugMode.checked !== currentSettings.advanced.debugMode ||
       storageLocation.value !== currentSettings.advanced.storageLocation) {
+    return true;
+  }
+  
+  // Check analytics settings
+  if (analyticsEnabled.checked !== currentSettings.analytics.analyticsEnabled ||
+      shareCrashReports.checked !== currentSettings.analytics.shareCrashReports ||
+      shareUsageStatistics.checked !== currentSettings.analytics.shareUsageStatistics) {
     return true;
   }
   

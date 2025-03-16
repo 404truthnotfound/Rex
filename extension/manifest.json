@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "REX: AI Memory Enhancement",
+  "name": "REX: AI Chat History & Memory Enhancement",
   "version": "1.0.0",
-  "description": "Enhance AI chat platforms with advanced memory capabilities",
+  "description": "Save, search & enhance AI chat history across Claude, ChatGPT, and Gemini. Never lose important conversations again!",
   "permissions": [
     "storage",
     "tabs",
@@ -27,7 +27,7 @@
         "https://*.gemini.google.com/*",
         "https://*.claude.ai/*"
       ],
-      "js": ["config.js", "api.js", "content/content.js"]
+      "js": ["config.js", "api.js", "analytics.js", "content/content.js"]
     }
   ],
   "action": {
@@ -36,11 +36,33 @@
       "16": "icons/rex_16.png",
       "48": "icons/rex_48.png",
       "128": "icons/rex_128.png"
-    }
+    },
+    "default_title": "REX: AI Chat History & Memory"
   },
   "icons": {
     "16": "icons/rex_16.png",
     "48": "icons/rex_48.png",
     "128": "icons/rex_128.png"
-  }
+  },
+  "short_name": "REX AI Memory",
+  "author": "REX",
+  "homepage_url": "https://github.com/yourusername/REX",
+  "offline_enabled": true,
+  "keywords": [
+    "AI chat history",
+    "ChatGPT backup",
+    "Claude history",
+    "Gemini chat saver",
+    "AI conversation export",
+    "chat memory",
+    "AI chat scraper",
+    "conversation history",
+    "AI memory enhancement",
+    "chat backup tool",
+    "AI assistant memory",
+    "chat archive",
+    "AI chat export",
+    "conversation backup",
+    "chat history scraper"
+  ]
 }
