@@ -8,8 +8,13 @@ const REX_CONFIG = {
   apiEndpoint: 'http://localhost:8000',
   
   // Analytics endpoint (set to null to disable)
-  analyticsEndpoint: null, // Replace with your Firebase function URL after deployment
-  // Example: 'https://us-central1-rex-analytics.cloudfunctions.net/trackEvent'
+  analyticsEndpoint: 'https://us-central1-rexai-2c417.cloudfunctions.net/trackEvent', // Firebase function URL
+  
+  // Firebase configuration
+  firebaseConfig: {
+    projectId: 'rexai-2c417',
+    databaseURL: 'https://rexai-2c417-default-rtdb.asia-southeast1.firebasedatabase.app'
+  },
   
   // Default settings
   defaultSettings: {

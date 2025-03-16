@@ -2,8 +2,11 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 const cors = require('cors')({origin: true});
 
-admin.initializeApp();
-const db = admin.firestore();
+admin.initializeApp({
+  databaseURL: 'https://rexai-2c417-default-rtdb.asia-southeast1.firebasedatabase.app'
+});
+
+const db = admin.database();
 
 /**
  * Track an analytics event
@@ -27,23 +30,20 @@ exports.trackEvent = functions.https.onRequest((req, res) => {
 
       // Add timestamp if not provided
       if (!eventData.timestamp) {
-        eventData.timestamp = admin.firestore.FieldValue.serverTimestamp();
-      } else {
-        // Convert string timestamp to Firestore timestamp
-        eventData.timestamp = admin.firestore.Timestamp.fromDate(new Date(eventData.timestamp));
+        eventData.timestamp = admin.database.ServerValue.TIMESTAMP;
       }
 
-      // Add event to Firestore
-      await db.collection('events').add(eventData);
+      // Add event to database
+      const eventsRef = db.ref('events');
+      await eventsRef.push(eventData);
 
       // Update installation record
-      await db.collection('installations')
-        .doc(eventData.installationId)
-        .set({
-          lastSeen: admin.firestore.FieldValue.serverTimestamp(),
-          platform: eventData.platform || 'unknown',
-          events: admin.firestore.FieldValue.increment(1)
-        }, { merge: true });
+      const installationRef = db.ref(`installations/${eventData.installationId}`);
+      await installationRef.update({
+        lastSeen: admin.database.ServerValue.TIMESTAMP,
+        platform: eventData.platform || 'unknown',
+        events: admin.database.ServerValue.increment(1)
+      });
 
       // Return success
       return res.status(200).send({ success: true });
@@ -68,32 +68,26 @@ exports.getDashboardData = functions.https.onRequest((req, res) => {
       }
 
       // Get installations count
-      const installationsSnapshot = await db.collection('installations').get();
-      const installationsCount = installationsSnapshot.size;
+      const installationsSnapshot = await db.ref('installations').once('value');
+      const installations = installationsSnapshot.val() || {};
+      const installationsCount = Object.keys(installations).length;
 
-      // Get events count
-      const eventsSnapshot = await db.collection('events').get();
-      const eventsCount = eventsSnapshot.size;
-
-      // Get events by type
-      const eventTypesSnapshot = await db.collection('events')
-        .select('event')
-        .get();
+      // Get events
+      const eventsSnapshot = await db.ref('events').once('value');
+      const events = eventsSnapshot.val() || {};
+      const eventsCount = Object.keys(events).length;
       
+      // Get events by type
       const eventTypes = {};
-      eventTypesSnapshot.forEach(doc => {
-        const event = doc.data().event;
-        eventTypes[event] = (eventTypes[event] || 0) + 1;
+      Object.values(events).forEach(event => {
+        const eventName = event.event;
+        eventTypes[eventName] = (eventTypes[eventName] || 0) + 1;
       });
 
       // Get platforms
-      const platformsSnapshot = await db.collection('installations')
-        .select('platform')
-        .get();
-      
       const platforms = {};
-      platformsSnapshot.forEach(doc => {
-        const platform = doc.data().platform || 'unknown';
+      Object.values(installations).forEach(installation => {
+        const platform = installation.platform || 'unknown';
         platforms[platform] = (platforms[platform] || 0) + 1;
       });
 
