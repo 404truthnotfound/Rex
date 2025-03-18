@@ -129,7 +129,7 @@ class MemoryManager:
             Dictionary containing recalled memories and related information
         """
         # Extract the trigger type and topic
-        trigger_parts = trigger_phrase.lower().split("rex, ", 1)
+        trigger_parts = trigger_phrase.split("REX, ", 1)
         if len(trigger_parts) < 2:
             logger.warning(f"Invalid trigger phrase format: {trigger_phrase}")
             return {"error": "Invalid trigger phrase format"}
@@ -138,7 +138,7 @@ class MemoryManager:
         
         # Identify which trigger type was used
         for trigger_key, handler in self.memory_triggers.items():
-            if trigger_content.startswith(trigger_key):
+            if trigger_content.lower().startswith(trigger_key):
                 topic = trigger_content[len(trigger_key):].strip()
                 return handler(user_id, topic, context)
         
@@ -240,7 +240,7 @@ class MemoryManager:
             limit=self.config.get("memory_recall_limit", 3)
         )
         return {
-            "topic": topic,
+            "topic": topic,  # Preserve the original case of the topic
             "memories": [memory.to_dict() for memory in memories],
             "trigger_type": "recall"
         }
@@ -255,7 +255,7 @@ class MemoryManager:
             limit=self.config.get("memory_recall_limit", 3)
         )
         return {
-            "topic": topic,
+            "topic": topic,  # Preserve the original case of the topic
             "memories": [memory.to_dict() for memory in memories],
             "trigger_type": "remember_discussion"
         }
@@ -269,7 +269,7 @@ class MemoryManager:
             limit=self.config.get("memory_recall_limit", 3)
         )
         return {
-            "topic": topic,
+            "topic": topic,  # Preserve the original case of the topic
             "memories": [memory.to_dict() for memory in memories],
             "trigger_type": "what_did_we_say"
         }
@@ -283,7 +283,7 @@ class MemoryManager:
             limit=self.config.get("memory_recall_limit", 5)
         )
         return {
-            "project": project,
+            "project": project,  # Preserve the original case of the project name
             "memories": [memory.to_dict() for memory in memories],
             "trigger_type": "project_update"
         }
